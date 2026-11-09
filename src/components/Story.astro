@@ -1,0 +1,59 @@
+---
+import type { Content } from '../data/content';
+import SmartImage from './ui/SmartImage.astro';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const s = c.story;
+const words = s.lead.split(' ');
+---
+<div class="marquee border-y-[1.5px] border-shu bg-shu py-4 text-washi" aria-hidden="true">
+  <div class="marquee-track" style="--speed:60s">
+    {[0, 1].map(() => (
+      <div class="flex shrink-0 items-center">
+        {c.ticker.map((t) => (
+          <span class="t-label flex items-center gap-8 px-8 text-[0.85rem]">{t}<Cloud tone="line" class="w-8 [&_path]:stroke-washi" /></span>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<section id="story" class="relative py-24 md:py-40" aria-labelledby="story-title">
+  <div class="container-x grid gap-14 lg:grid-cols-12">
+    <div class="lg:col-span-1">
+      <p class="vertical-jp t-jp hidden text-lg text-shu-ink lg:block" aria-hidden="true">浮世 ・ 雲へようこそ</p>
+    </div>
+    <div class="lg:col-span-10">
+      <h2 id="story-title" class="t-label text-shu-ink" data-reveal>{s.eyebrow}</h2>
+      <p class="t-serif t-h3 mt-8 max-w-5xl !leading-[1.18] text-sumi" data-lit>
+        {words.map((w) => <span class="lit-word">{w} </span>)}
+      </p>
+
+      <div class="mt-20 grid gap-10 md:grid-cols-12 md:items-end">
+        <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] md:col-span-5" data-reveal>
+          <div class="h-full w-full" data-drift><SmartImage name="villa-dining" alt="" sizes="(min-width: 768px) 40vw, 90vw" jp="木" /></div>
+        </div>
+        <div class="flex flex-col gap-8 md:col-span-6 md:col-start-7">
+          <p class="t-body text-sumi-soft" data-reveal>{s.p1}</p>
+          <p class="t-body text-sumi-soft" data-reveal>{s.p2}</p>
+          <ul class="mt-4 border-t-[1.5px] border-shu">
+            {s.manifesto.map((m, i) => (
+              <li class="manifesto t-serif flex items-baseline justify-between gap-6 border-b border-line py-4 text-[clamp(1.6rem,3vw,2.4rem)]" data-reveal>
+                <span class:list={[i === 3 && 'italic text-shu']}>{m}</span>
+                <span class="t-label text-shu-ink/60" aria-hidden="true">0{i + 1}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lit-word { transition: color 0.5s; }
+  :global(html.motion-ok) .lit-word { color: rgb(43 30 26 / 0.18); }
+  :global(html.motion-ok) .lit-word.is-lit { color: var(--color-sumi); }
+</style>

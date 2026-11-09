@@ -1,0 +1,24 @@
+---
+// An original puffy cloud. `face` adds the sleepy, content expression.
+interface Props { face?: boolean; class?: string; style?: string; tone?: 'paper' | 'red' | 'line'; title?: string }
+const { face = false, class: cls = '', style, tone = 'paper', title } = Astro.props;
+const fill = tone === 'red' ? 'var(--color-shu)' : tone === 'line' ? 'none' : '#fbf7f0';
+const stroke = tone === 'red' ? 'var(--color-shu-deep)' : 'var(--color-shu)';
+---
+<svg class={cls} style={style} viewBox="0 0 170 104" role={title ? 'img' : undefined} aria-hidden={title ? undefined : 'true'} aria-label={title} focusable="false">
+  <path d="M38 94C14 94 3 74 16 58 8 38 30 22 47 31 55 9 89 6 100 28c16-13 43-3 41 20 21 2 27 32 8 42-4 3-10 4-15 4Z"
+    fill={fill} stroke={stroke} stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round" />
+  {face && (
+    <g fill="none" stroke={tone === 'red' ? '#fbf7f0' : 'var(--color-sumi)'} stroke-width="3" stroke-linecap="round">
+      <path d="M62 62q6 5 12 0" />
+      <path d="M98 62q6 5 12 0" />
+      <path d="M81 74q5 4 10 0" />
+    </g>
+  )}
+  {face && (
+    <g fill="var(--color-shu)" opacity={tone === 'red' ? 0.0 : 0.28}>
+      <ellipse cx="55" cy="74" rx="7" ry="4" />
+      <ellipse cx="117" cy="74" rx="7" ry="4" />
+    </g>
+  )}
+</svg>

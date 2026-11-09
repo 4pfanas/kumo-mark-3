@@ -1,0 +1,81 @@
+---
+import type { Content } from '../data/content';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const a = c.ask;
+---
+<section id="ask" class="ask relative isolate scroll-mt-16 overflow-hidden bg-shu py-24 text-washi md:py-36" aria-labelledby="ask-title">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute -start-10 top-16 w-48 opacity-25"><div class="drift" style="--d:24s"><Cloud tone="line" class="w-full [&_path]:stroke-washi" /></div></div>
+    <div class="absolute bottom-10 end-[-3rem] w-72 opacity-20"><div class="drift" style="--d:30s;--x:-30px"><Cloud tone="line" class="w-full [&_path]:stroke-washi" /></div></div>
+    <span class="t-jp absolute -bottom-20 start-[30%] text-[22rem] leading-none text-washi/[0.06]">聞</span>
+  </div>
+
+  <div class="container-x grid gap-14 lg:grid-cols-12">
+    <div class="lg:col-span-5">
+      <p class="t-label text-washi/80" data-reveal>{a.eyebrow}</p>
+      <h2 id="ask-title" class="t-serif t-h2 mt-5" data-reveal>{a.title}</h2>
+      <p class="t-body mt-6 max-w-md text-washi/85" data-reveal>{a.sub}</p>
+      <div class="ask-cloud relative mt-12 hidden w-64 lg:block" aria-hidden="true" data-reveal>
+        <div class="bob"><div class="breathe"><Cloud face class="w-full" /></div></div>
+        <span class="thought absolute -top-4 end-0 flex gap-1.5" data-ask-thought>
+          <i></i><i></i><i></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7">
+      <form class="ask-form relative" data-ask-form role="search">
+        <label for="ask-input" class="sr-only">{a.label}</label>
+        <textarea id="ask-input" rows="2" data-ask-input placeholder={a.placeholder} maxlength="240"
+          class="block w-full resize-none rounded-[1.6rem] border-[1.5px] border-washi/40 bg-washi px-6 py-5 pe-28 text-[1.05rem] leading-relaxed text-sumi outline-none placeholder:text-sumi-soft/60 focus:border-washi rtl:text-[1.15rem]"></textarea>
+        <button type="submit" class="btn absolute bottom-3 end-3 bg-sumi text-washi hover:bg-shu-deep">{a.submit}</button>
+      </form>
+
+      <ul class="mt-5 flex flex-wrap gap-2" aria-label="Examples">
+        {a.examples.map((ex) => (
+          <li><button type="button" class="ask-example rounded-full border-[1.5px] border-washi/40 px-4 py-2 text-[0.8rem] transition-colors hover:bg-washi hover:text-shu-ink rtl:text-[0.95rem]" data-ask-example>{ex}</button></li>
+        ))}
+      </ul>
+
+      <div class="mt-10 min-h-[18rem]" data-ask-out aria-live="polite">
+        <p class="t-body text-washi/75" data-ask-idle>{a.nothingHeard}</p>
+      </div>
+    </div>
+  </div>
+
+  <template data-ask-card>
+    <li class="ask-card flex flex-col justify-between gap-6 rounded-[1.6rem] bg-washi p-6 text-sumi">
+      <div>
+        <p class="t-label !text-[0.62rem] text-shu-ink" data-f="section"></p>
+        <h3 class="t-serif mt-3 text-[1.9rem] leading-tight" data-f="name"></h3>
+        <p class="mt-2 text-[0.85rem] leading-relaxed text-sumi-soft rtl:text-[1rem]" data-f="desc"></p>
+      </div>
+      <div>
+        <p class="t-label !font-normal !text-[0.62rem] text-shu-ink" data-f="why"></p>
+        <div class="mt-4 flex items-center justify-between gap-3 border-t border-line pt-4">
+          <span class="font-semibold" data-f="price"></span>
+          <button type="button" class="tray-btn grid h-9 w-9 place-items-center rounded-full border-[1.5px] border-line text-shu" aria-pressed="false" data-tray-add="">
+            <svg class="plus" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0v12M0 6h12" stroke="currentColor" stroke-width="1.6" /></svg>
+          </button>
+        </div>
+      </div>
+    </li>
+  </template>
+</section>
+
+<style>
+  .thought i { display: block; width: 10px; height: 10px; border-radius: 99px; background: var(--color-washi); opacity: 0.3; }
+  .thought.is-on i { animation: think 1s infinite; }
+  .thought.is-on i:nth-child(2) { animation-delay: 0.15s; }
+  .thought.is-on i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes think { 50% { opacity: 1; translate: 0 -5px; } }
+  :global(.ask-heard) { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+  :global(.ask-heard .pill) { border: 1.5px solid rgb(243 237 226 / 0.5); border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+  :global(.ask-heard .pill.neg) { text-decoration: line-through; text-decoration-thickness: 1.5px; opacity: 0.85; }
+  :global(.ask-card) { opacity: 0; transform: translateY(16px) scale(0.98); transition: opacity 0.6s var(--ease-cloud), transform 0.7s var(--ease-cloud); }
+  :global(.ask-card.in) { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { :global(.ask-card) { opacity: 1; transform: none; } }
+</style>

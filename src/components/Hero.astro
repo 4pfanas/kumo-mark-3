@@ -1,0 +1,82 @@
+---
+import { site } from '../data/site';
+import type { Content } from '../data/content';
+import Button from './ui/Button.astro';
+import Cloud from './art/Cloud.astro';
+import Lantern from './art/Lantern.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const h = c.hero;
+---
+<section id="hero" class="hero relative scroll-mt-0 isolate flex min-h-[100svh] items-center overflow-hidden pb-16 pt-28" aria-labelledby="hero-title" data-hero>
+  <!-- sky -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="sun absolute end-[-18%] top-[60%] aspect-square w-[92vw] rounded-full md:end-[6%] md:top-[18%] md:w-[min(46vw,560px)]" data-hero-cloud data-depth="0.15"></div>
+    <span class="kanji t-jp absolute -bottom-[6vw] end-[-2vw] select-none leading-none" data-hero-cloud data-depth="0.3">雲</span>
+    <Lantern class="absolute end-[4%] top-[72px] hidden w-14 md:block lg:end-[9%] lg:w-[4.5rem]" />
+    <div class="absolute start-[-4%] top-[16%] hidden w-40 md:block md:w-56" data-hero-cloud data-depth="0.6">
+      <div class="drift" style="--d:22s;--x:30px"><Cloud class="w-full opacity-90" /></div>
+    </div>
+    <div class="absolute end-[38%] top-[12%] hidden w-24 md:block" data-hero-cloud data-depth="0.9">
+      <div class="drift" style="--d:18s;--x:-26px"><Cloud tone="line" class="w-full" /></div>
+    </div>
+    <div class="absolute bottom-[12%] start-[42%] hidden w-32 lg:block" data-hero-cloud data-depth="0.5">
+      <div class="drift" style="--d:28s;--x:40px"><Cloud class="w-full opacity-80" /></div>
+    </div>
+  </div>
+
+  <div class="container-x grid w-full items-center gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-7">
+      <p class="t-label text-shu-ink" data-hero-fade>{h.eyebrow}</p>
+
+      <p class="status-pill t-label mt-6 inline-flex items-center gap-2.5 rounded-full border-[1.5px] border-line bg-washi/70 px-4 py-2 text-sumi" data-hero-fade aria-live="polite">
+        <span class="status-dot h-2 w-2 rounded-full" aria-hidden="true"></span>
+        <span data-status>{c.status.nowIn}</span>
+      </p>
+
+      <h1 id="hero-title" class="t-serif t-hero mt-7 text-sumi">
+        {h.lines.map((line, i) => (
+          <span class="block overflow-hidden pb-[0.08em]">
+            <span class:list={['block', i === 1 && 'text-shu italic']} data-hero-line>{line}</span>
+          </span>
+        ))}
+      </h1>
+
+      <p class="t-body mt-8 max-w-xl text-sumi-soft" data-hero-fade>{h.sub}</p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-3" data-hero-fade>
+        <Button href={site.bookUrl} label={c.cta.book} external />
+        <Button href="#menu" label={c.cta.menu} variant="line" arrow={false} />
+      </div>
+    </div>
+
+    <div class="relative lg:col-span-5">
+      <div class="mascot relative mx-auto w-[min(78vw,420px)]" data-hero-cloud data-depth="1.2">
+        <div class="bob"><div class="breathe"><Cloud face class="w-full drop-shadow-[0_24px_0_rgba(169,47,27,0.12)]" title="KUMO cloud" /></div></div>
+        <p class="t-jp absolute -bottom-12 start-1/2 rounded-full bg-washi/80 px-3 py-1 -translate-x-1/2 whitespace-nowrap text-sm text-shu-ink rtl:translate-x-1/2" data-hero-fade>{h.welcome}</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="#story" class="t-label absolute bottom-6 start-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-shu-ink md:flex rtl:translate-x-1/2" aria-hidden="true" tabindex="-1" data-hero-fade>
+    <span class="scroll-line block h-10 w-px bg-shu"></span>
+  </a>
+</section>
+
+<style>
+  .sun { background: var(--sun, var(--color-shu)); opacity: 0.14; transition: background-color 1.2s var(--ease-cloud); }
+  :root[data-mood='morning'] .sun { --sun: var(--color-kaki); opacity: 0.2; }
+  .kanji {
+    font-size: clamp(16rem, 44vw, 44rem);
+    font-weight: 300;
+    color: rgb(169 47 27 / 0.06);
+  }
+  :global(html[lang='ar']) .hero h1 > span { padding-top: 0.22em; }
+  .status-dot { background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ping 2.2s infinite; }
+  [data-open='false'] .status-dot { background: var(--color-sumi-soft); animation: none; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgb(211 59 36 / 0.45); } 80%, 100% { box-shadow: 0 0 0 9px rgb(211 59 36 / 0); } }
+  .scroll-line { transform-origin: top; animation: scrollLine 2.4s var(--ease-cloud) infinite; }
+  @keyframes scrollLine { 0% { scale: 1 0; } 50% { scale: 1 1; transform-origin: top; } 51% { transform-origin: bottom; } 100% { scale: 1 0; transform-origin: bottom; } }
+  @media (prefers-reduced-motion: reduce) { .status-dot, .scroll-line { animation: none; } }
+</style>

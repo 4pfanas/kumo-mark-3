@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ───────────── KUMO tokens: washi cream, vermilion ink, kaki orange, café sage ───────────── */
+@theme {
+  --color-washi: #f3ede2;
+  --color-washi-2: #ebe3d3;
+  --color-washi-3: #e1d6c2;
+  --color-shu: #d33b24;        /* vermilion: logo red */
+  --color-shu-ink: #a92f1b;    /* red text on cream, AA contrast */
+  --color-shu-deep: #7c2213;
+  --color-kaki: #d9822b;       /* persimmon orange from the welcome pages */
+  --color-matcha: #9db785;     /* Café Kumo sage */
+  --color-matcha-deep: #4f6b3c;
+  --color-sumi: #2b1e1a;       /* warm ink */
+  --color-sumi-soft: #5b4a42;
+  --color-line: rgb(169 47 27 / 0.22);
+
+  --font-sans: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif: "Fraunces Variable", Georgia, serif;
+  --font-jp: "Noto Sans JP", sans-serif;
+  --font-ar: "IBM Plex Sans Arabic", sans-serif;
+
+  --ease-cloud: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Mood: evening (default) vs morning (Café Kumo). Set by time in Dubai, switchable. */
+:root {
+  --accent: var(--color-shu);
+  --accent-ink: var(--color-shu-ink);
+  --accent-soft: rgb(211 59 36 / 0.1);
+}
+:root[data-mood="morning"] {
+  --accent: var(--color-matcha-deep);
+  --accent-ink: var(--color-matcha-deep);
+  --accent-soft: rgb(157 183 133 / 0.22);
+}
+
+@layer base {
+  html {
+    background: var(--color-washi);
+    color: var(--color-sumi);
+    -webkit-font-smoothing: antialiased;
+    scrollbar-color: var(--color-shu) var(--color-washi);
+  }
+  body {
+    background: var(--color-washi);
+    font-family: var(--font-mono);
+    overflow-x: clip;
+    transition: background-color 1.2s var(--ease-cloud);
+  }
+  html[lang="ar"] body { font-family: var(--font-ar); }
+  ::selection { background: var(--color-shu); color: var(--color-washi); }
+  :focus-visible { outline: 2px solid var(--color-shu); outline-offset: 3px; border-radius: 4px; }
+  a { color: inherit; text-decoration: none; }
+  input, button { font: inherit; color: inherit; }
+}
+
+@layer components {
+  .container-x { width: 100%; max-width: 84rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .container-x { padding-inline: 2.5rem; } }
+  @media (min-width: 1024px) { .container-x { padding-inline: 3.5rem; } }
+
+  /* Thin, airy serif like the menu chapter titles ("Starters", "Sushi Bar") */
+  .t-serif {
+    font-family: var(--font-serif);
+    font-weight: 250;
+    font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0;
+    letter-spacing: -0.01em;
+    line-height: 0.98;
+  }
+  html[lang="ar"] .t-serif {
+    font-family: var(--font-ar);
+    font-weight: 200;
+    font-variation-settings: normal;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  .t-hero { font-size: clamp(3.4rem, 10vw, 9.5rem); }
+  html[lang="ar"] .t-hero { font-size: clamp(2.8rem, 8.4vw, 7rem); }
+  .t-h2 { font-size: clamp(2.6rem, 6.4vw, 5.6rem); }
+  html[lang="ar"] .t-h2 { font-size: clamp(2.2rem, 5.2vw, 4.4rem); }
+  .t-h3 { font-size: clamp(1.9rem, 3.4vw, 3rem); }
+  html[lang="ar"] .t-h3 { font-size: clamp(1.7rem, 3vw, 2.6rem); }
+
+  /* Chunky soft wordmark, a nod to the KUMO logo */
+  .wordmark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 900;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  /* The menu's monospace voice */
+  .t-mono { font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  html[lang="ar"] .t-label {
+    font-family: var(--font-ar);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .t-body { font-size: 0.98rem; line-height: 1.75; }
+  html[lang="ar"] .t-body { font-family: var(--font-ar); font-size: 1.1rem; line-height: 1.95; }
+  .t-jp { font-family: var(--font-jp); font-weight: 300; letter-spacing: 0.04em; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+    min-height: 50px; padding-inline: 1.4rem; border-radius: 999px;
+    font-family: var(--font-mono); font-weight: 600; font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap;
+    transition: background-color 0.4s var(--ease-cloud), color 0.4s, transform 0.4s var(--ease-cloud), box-shadow 0.4s;
+  }
+  html[lang="ar"] .btn { font-family: var(--font-ar); font-size: 1rem; letter-spacing: 0; text-transform: none; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-red { background: var(--color-shu); color: var(--color-washi); box-shadow: 0 6px 0 -2px var(--color-shu-deep); }
+  .btn-red:hover { box-shadow: 0 9px 0 -2px var(--color-shu-deep); }
+  .btn-line { border: 1.5px solid currentColor; }
+  .btn-line:hover { background: var(--color-sumi); color: var(--color-washi); border-color: var(--color-sumi); }
+  .btn-sm { min-height: 42px; padding-inline: 1rem; font-size: 0.72rem; }
+  .btn .arrow { transition: translate 0.4s var(--ease-cloud); }
+  .btn:hover .arrow { translate: 3px 0; }
+  [dir="rtl"] .btn .arrow { transform: scaleX(-1); }
+  [dir="rtl"] .btn:hover .arrow { translate: -3px 0; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem; min-height: 38px; padding-inline: 0.9rem;
+    border: 1.5px solid var(--color-line); border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-shu-ink);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+  html[lang="ar"] .chip { font-family: var(--font-ar); font-size: 0.95rem; letter-spacing: 0; text-transform: none; }
+  .chip:hover { border-color: var(--color-shu); }
+  .chip[aria-pressed="true"] { background: var(--color-shu); border-color: var(--color-shu); color: var(--color-washi); }
+
+  /* Washi paper fibres + soft grain (static, cheap) */
+  .washi {
+    background-image:
+      radial-gradient(rgb(43 30 26 / 0.035) 1px, transparent 1.2px),
+      radial-gradient(rgb(169 47 27 / 0.025) 1px, transparent 1.2px);
+    background-size: 7px 7px, 13px 13px;
+    background-position: 0 0, 3px 5px;
+  }
+  /* Shoji lattice, used as a quiet texture */
+  .shoji {
+    background-image:
+      linear-gradient(to right, rgb(169 47 27 / 0.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(169 47 27 / 0.09) 1px, transparent 1px);
+    background-size: 56px 84px;
+  }
+
+  .vertical-jp { writing-mode: vertical-rl; text-orientation: upright; }
+
+  /* Header */
+  .site-header { transition: transform 0.6s var(--ease-cloud), background-color 0.4s, box-shadow 0.4s; }
+  .site-header.is-scrolled { background: rgb(243 237 226 / 0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--color-line); }
+  .site-header.is-hidden, html.intro-active .site-header { transform: translateY(-100%); }
+
+  .skip-link { position: fixed; inset-inline-start: 1rem; top: 1rem; z-index: 100; padding: 0.7rem 1.1rem; background: var(--color-shu); color: var(--color-washi); transform: translateY(-200%); }
+  .skip-link:focus { transform: none; }
+
+  /* Marquee */
+  .marquee { overflow: hidden; }
+  .marquee-track { display: flex; width: max-content; animation: marquee var(--speed, 50s) linear infinite; }
+  [dir="rtl"] .marquee-track { animation-name: marquee-rtl; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @keyframes marquee-rtl { to { transform: translateX(50%); } }
+
+  /* Clouds drift + breathe */
+  .drift { animation: drift var(--d, 26s) ease-in-out infinite alternate; }
+  @keyframes drift { from { translate: calc(var(--x, 24px) * -1) 0; } to { translate: var(--x, 24px) 0; } }
+  .breathe { animation: breathe 5.5s ease-in-out infinite; transform-origin: 50% 80%; }
+  @keyframes breathe { 50% { scale: 1.03 0.97; } }
+  .bob { animation: bob 4.8s ease-in-out infinite; }
+  @keyframes bob { 50% { translate: 0 -10px; rotate: -2deg; } }
+  .sway { animation: sway 6s ease-in-out infinite; transform-origin: 50% 0; }
+  @keyframes sway { 0%, 100% { rotate: -4deg; } 50% { rotate: 4deg; } }
+
+  /* Menu rows */
+  .menu-item[hidden] { display: none; }
+  .menu-section[hidden] { display: none; }
+  .tray-btn[aria-pressed="true"] { background: var(--color-shu); color: var(--color-washi); border-color: var(--color-shu); }
+  .tray-btn[aria-pressed="true"] .plus { rotate: 45deg; }
+  .tray-btn .plus { transition: rotate 0.35s var(--ease-cloud); }
+
+  /* Matcha cups */
+  .cup-fill { transform-origin: 50% 100%; transition: transform 1.1s var(--ease-cloud); }
+  .cup:hover .cup-fill, .cup:focus-within .cup-fill { transform: scaleY(1.06); }
+}
+
+/* ───────────── Motion initial states (JS on + motion allowed) ───────────── */
+html.js-motion [data-hero-line] { transform: translateY(105%); }
+html.js-motion [data-hero-fade] { opacity: 0; transform: translateY(18px); }
+html.js-motion [data-hero-cloud] { opacity: 0; }
+html.is-leaving body { opacity: 0; transition: opacity 0.3s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .drift, .breathe, .bob, .sway { animation: none; }
+  .btn, .site-header, .cup-fill, body { transition: none; }
+}

@@ -1,0 +1,83 @@
+---
+// Scroll-driven 3D opening: a golden ryū coils above a storm cloud, then dives into it.
+// The cloud swells to fill the screen, turns to washi cream, and the menu choice rises out of it.
+import { site } from '../data/site';
+import type { Content } from '../data/content';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const t = c.intro;
+---
+<section id="intro" class="intro relative" aria-label={t.title} data-intro>
+  <div class="intro-stage sticky top-0 h-[100svh] overflow-hidden" data-intro-stage>
+    <div class="intro-sky absolute inset-0" aria-hidden="true"></div>
+    <span class="intro-kanji t-jp pointer-events-none absolute select-none" aria-hidden="true">龍</span>
+    <div class="intro-glow absolute inset-x-0 bottom-0 h-[55%]" aria-hidden="true"></div>
+    <canvas class="absolute inset-0 h-full w-full" data-intro-canvas aria-hidden="true"></canvas>
+    <div class="intro-flash pointer-events-none absolute inset-0" data-intro-flash aria-hidden="true"></div>
+
+    <div class="intro-copy pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center px-5 pt-[15svh] md:pt-[6svh] text-center" data-intro-copy>
+      <p class="wordmark text-[clamp(3rem,9vw,6.5rem)] text-[#f6ead4]">Kumo</p>
+      <p class="t-jp mt-3 text-sm tracking-[0.3em] text-[#e98a6c]">{t.kicker}</p>
+      <h2 class="t-serif mt-6 max-w-2xl text-[clamp(1.6rem,3.6vw,2.8rem)] text-[#f6ead4]">{t.title}</h2>
+    </div>
+
+    <div class="intro-hint pointer-events-none absolute [text-shadow:0_1px_8px_rgb(110_17_28/0.8)] inset-x-0 bottom-8 flex flex-col items-center gap-3 text-[#f0d9bf]" data-intro-hint>
+      <span class="t-label rounded-full bg-[#16040a]/70 px-4 py-2 backdrop-blur-sm">{t.scroll}</span>
+      <span class="intro-mouse block h-9 w-5 rounded-full border-[1.5px] border-current" aria-hidden="true"><i></i></span>
+    </div>
+
+    <a href="#hero" class="intro-skip t-label absolute end-5 top-5 z-10 md:top-24 rounded-full border-[1.5px] border-[#f0d9bf]/40 px-4 py-2 text-[#f0d9bf] backdrop-blur-sm hover:bg-[#f0d9bf] hover:text-shu-deep md:end-10" data-intro-skip>{t.skip} ↓</a>
+
+    <div class="intro-whiteout pointer-events-none absolute inset-0" data-intro-whiteout aria-hidden="true"></div>
+
+    <div class="intro-choose absolute inset-0 flex flex-col items-center justify-center px-5" data-intro-choose>
+      <p class="t-label text-shu-ink">{t.choose}</p>
+      <div class="mt-8 grid w-full max-w-3xl gap-4 sm:grid-cols-2">
+        <a href="#menu" data-open-menu="main" class="choose-card group relative isolate overflow-hidden rounded-[2rem] bg-shu p-8 text-washi">
+          <span class="t-jp pointer-events-none absolute -end-2 -top-6 -z-10 text-[8rem] leading-none text-washi/15" aria-hidden="true">{t.kumo.jp}</span>
+          <span class="t-label opacity-80">{t.kumo.time}</span>
+          <span class="t-serif mt-10 block text-[2.6rem]">{t.kumo.name}</span>
+          <span class="t-label mt-4 inline-block border-b-[1.5px] border-current pb-1">{c.day.main.cta} →</span>
+        </a>
+        <a href="#menu" data-open-menu="cafe" class="choose-card group relative isolate overflow-hidden rounded-[2rem] bg-matcha p-8 text-sumi">
+          <span class="t-jp pointer-events-none absolute -end-2 -top-6 -z-10 whitespace-nowrap text-[8rem] leading-none text-matcha-deep/10" aria-hidden="true">{t.cafe.jp}</span>
+          <span class="t-label opacity-80">{t.cafe.time}</span>
+          <span class="t-serif mt-10 block text-[2.6rem]">{t.cafe.name}</span>
+          <span class="t-label mt-4 inline-block border-b-[1.5px] border-current pb-1">{c.day.cafe.cta} →</span>
+        </a>
+      </div>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href={site.bookUrl} target="_blank" rel="noopener" class="btn btn-red btn-sm">{c.cta.book}</a>
+        <span class="t-label text-sumi-soft">{t.keep} ↓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro { height: 340svh; background: #16040a; }
+  .intro-sky { background: radial-gradient(120% 80% at 50% 0%, #3a0a12 0%, #1f050b 55%, #120307 100%); }
+  .intro-glow { background: radial-gradient(55% 60% at 50% 85%, rgb(178 40 34 / 0.38), transparent 72%); }
+  .intro-kanji {
+    inset-inline-end: 4vw; top: 50%; translate: 0 -50%;
+    font-size: clamp(14rem, 34vw, 30rem); font-weight: 300; line-height: 1;
+    color: rgb(184 50 29 / 0.13);
+  }
+  .intro-flash { background: radial-gradient(70% 60% at 50% 70%, rgb(255 245 210 / 0.9), transparent 70%); opacity: 0; mix-blend-mode: screen; }
+  .intro-whiteout { background: radial-gradient(circle at 50% 62%, #fbf7f0 0%, #f3ede2 55%, #f3ede2 100%); opacity: 0; }
+  .intro-choose { opacity: 0; visibility: hidden; }
+  .intro-choose.is-on { visibility: visible; }
+  .choose-card { transition: transform 0.6s var(--ease-cloud); }
+  .choose-card:hover { transform: translateY(-6px); }
+  .intro-mouse { position: relative; }
+  .intro-mouse i { position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 3px; background: currentColor; animation: wheel 1.8s infinite; }
+  @keyframes wheel { 60% { transform: translateY(9px); opacity: 0; } 100% { opacity: 0; } }
+
+  /* No WebGL / reduced motion: a single still frame with the menu choice */
+  :global(.intro-static) .intro { height: 100svh; }
+  :global(.intro-static) .intro-hint, :global(.intro-static) .intro-copy { display: none; }
+  :global(.intro-static) .intro-choose { opacity: 1; visibility: visible; }
+  :global(.intro-static) .intro-choose .t-label.text-shu-ink, :global(.intro-static) .intro-choose .text-sumi-soft { color: #f0d9bf; }
+  @media (prefers-reduced-motion: reduce) { .intro-mouse i { animation: none; } }
+</style>

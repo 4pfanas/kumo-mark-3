@@ -1,0 +1,113 @@
+---
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+import '@fontsource/noto-sans-jp/japanese-300.css';
+import '@fontsource/noto-sans-jp/japanese-400.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-200.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-300.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
+import '../styles/global.css';
+
+import { getImage } from 'astro:assets';
+import type { Lang } from '../data/site';
+import { site, pathFor } from '../data/site';
+import { content } from '../data/content';
+import { findImage } from '../lib/images';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = content[lang];
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
+const base = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(pathFor(lang), base).href;
+const enUrl = new URL(pathFor('en'), base).href;
+const arUrl = new URL(pathFor('ar'), base).href;
+
+const ogMeta = findImage('og') ?? findImage('signature-nigiri');
+const og = ogMeta ? await getImage({ src: ogMeta, width: Math.min(1200, ogMeta.width), format: 'jpg' }) : undefined;
+const ogUrl = og ? new URL(og.src, base).href : undefined;
+
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const hhmm = (m: number) => (m >= 1440 ? '23:59' : `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'KUMO',
+  alternateName: ['كومو', '雲'],
+  description: c.meta.description,
+  servesCuisine: ['Japanese', 'Sushi', 'Robata', 'Café'],
+  inLanguage: lang,
+  url: canonical,
+  image: ogUrl,
+  telephone: site.phone,
+  priceRange: 'AED 16–310',
+  acceptsReservations: site.bookUrl,
+  hasMenu: `${canonical}#menu`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Villa 71, Al Wasl Road',
+    addressLocality: 'Dubai',
+    addressCountry: 'AE',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  openingHoursSpecification: site.hours.map((h, i) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: dayNames[i],
+    opens: hhmm(h.open),
+    closes: hhmm(h.close),
+  })),
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: site.rating.value, reviewCount: site.rating.count },
+  sameAs: [site.instagram],
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={dir} data-mood="evening">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{c.meta.title}</title>
+    <meta name="description" content={c.meta.description} />
+    {site.isConcept && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="ar" href={arUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:title" content={c.meta.title} />
+    <meta property="og:description" content={c.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'ar' ? 'ar_AE' : 'en_AE'} />
+    {ogUrl && <meta property="og:image" content={ogUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      // Before paint: pick the mood from Dubai time (or the guest's own choice), and arm the entrance motion.
+      (function () {
+        var d = document.documentElement;
+        var saved = null;
+        try { saved = localStorage.getItem('kumo-mood'); } catch (e) {}
+        var h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Dubai' }).format(new Date()));
+        d.dataset.mood = saved === 'morning' || saved === 'evening' ? saved : h >= 5 && h < 13 ? 'morning' : 'evening';
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('js-motion');
+          setTimeout(function () { d.classList.add('motion-ready'); d.classList.remove('js-motion'); }, 4000);
+        }
+      })();
+    </script>
+  </head>
+  <body class="washi">
+    <a class="skip-link t-label" href="#main">{c.nav.skip}</a>
+    <slot />
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+---
+// Responsive image by filename. Until photography arrives, a shoji-and-cloud panel stands in.
+import { Picture } from 'astro:assets';
+import { findImage } from '../../lib/images';
+import Cloud from '../art/Cloud.astro';
+
+interface Props { name: string; alt: string; sizes: string; priority?: boolean; class?: string; imgClass?: string; jp?: string }
+const { name, alt, sizes, priority = false, class: cls = '', imgClass = '', jp = '雲' } = Astro.props;
+const img = findImage(name);
+const widths = img ? [...new Set([360, 540, 720, 960, 1280, 1600, 2000].filter((w) => w < img.width).concat(img.width))] : [];
+---
+{img ? (
+  <Picture src={img} alt={alt} widths={widths} sizes={sizes} formats={['avif', 'webp']} quality={80}
+    loading={priority ? 'eager' : 'lazy'} decoding={priority ? 'sync' : 'async'} fetchpriority={priority ? 'high' : 'auto'}
+    class:list={['block h-full w-full object-cover', imgClass]} pictureAttributes={{ class: `block h-full w-full ${cls}` }} />
+) : (
+  <div class:list={['shoji relative grid h-full w-full place-items-center overflow-hidden bg-washi-2', cls]} role={alt ? 'img' : undefined} aria-label={alt || undefined}>
+    <Cloud face class="breathe w-[38%] max-w-44 opacity-90" />
+    <span class="t-jp absolute bottom-4 end-5 text-sm text-shu-ink/60" aria-hidden="true">{jp}</span>
+    {import.meta.env.DEV && <span class="t-label absolute start-4 top-4 text-shu-ink/50">{name}</span>}
+  </div>
+)}

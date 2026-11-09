@@ -1,0 +1,59 @@
+---
+import { site, pathFor, type Lang } from '../data/site';
+import type { Content } from '../data/content';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+---
+<header class="site-header fixed inset-x-0 top-0 z-50" data-header>
+  <div class="container-x flex h-[72px] items-center justify-between gap-4">
+    <a href={pathFor(lang)} class="flex items-baseline gap-2 text-shu" aria-label={c.nav.home}>
+      <span class="wordmark text-[1.9rem]">Kumo</span>
+      <span class="t-jp text-sm text-shu-ink">雲</span>
+    </a>
+
+    <nav aria-label={c.nav.label} class="hidden lg:block">
+      <ul class="flex items-center gap-8">
+        {c.nav.links.map((l) => (
+          <li><a href={l.href} class="t-label text-sumi transition-colors hover:text-shu">{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button type="button" class="mood-toggle relative flex h-[42px] items-center rounded-full border-[1.5px] border-line p-1" data-mood-toggle aria-label={c.mood.label}>
+        <span class="mood-knob absolute top-1 h-[30px] w-[34px] rounded-full bg-[var(--accent)]" aria-hidden="true"></span>
+        <span class="t-jp relative z-10 grid h-[30px] w-[34px] place-items-center text-[0.95rem]" data-mood-opt="morning" title={c.mood.morning}>朝</span>
+        <span class="t-jp relative z-10 grid h-[30px] w-[34px] place-items-center text-[0.95rem]" data-mood-opt="evening" title={c.mood.evening}>夜</span>
+      </button>
+      <a href={pathFor(c.nav.switchLang)} lang={c.nav.switchLang} class="t-label hidden px-2 text-sumi hover:text-shu sm:inline-block" data-lang-switch>{c.nav.switchLabel}</a>
+      <a href={site.bookUrl} target="_blank" rel="noopener" class="btn btn-red btn-sm">{c.cta.bookShort}</a>
+      <button type="button" class="grid h-[42px] w-[42px] place-items-center rounded-full border-[1.5px] border-line lg:hidden" data-nav-open aria-expanded="false" aria-controls="mobile-nav" aria-label="Menu">
+        <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18" stroke="currentColor" stroke-width="1.6" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="mobile-nav fixed inset-0 top-[72px] z-40 hidden bg-washi lg:hidden" data-mobile-nav>
+    <nav aria-label={c.nav.label} class="container-x flex h-full flex-col justify-between py-10">
+      <ul class="flex flex-col gap-6">
+        {c.nav.links.map((l) => (
+          <li><a href={l.href} class="t-serif text-5xl text-sumi" data-nav-close>{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href={site.bookUrl} target="_blank" rel="noopener" class="btn btn-red">{c.cta.book}</a>
+        <a href={pathFor(c.nav.switchLang)} lang={c.nav.switchLang} class="btn btn-line" data-lang-switch>{c.nav.switchLabel}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .mood-knob { inset-inline-start: 4px; transition: inset-inline-start 0.5s var(--ease-cloud), background-color 0.6s; }
+  :root[data-mood='evening'] .mood-knob { inset-inline-start: 38px; }
+  [data-mood-opt] { transition: color 0.4s; color: var(--color-sumi-soft); }
+  :root[data-mood='morning'] [data-mood-opt='morning'],
+  :root[data-mood='evening'] [data-mood-opt='evening'] { color: var(--color-washi); }
+  .mobile-nav.is-open { display: block; }
+</style>

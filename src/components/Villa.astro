@@ -1,0 +1,51 @@
+---
+import type { Content } from '../data/content';
+import { site } from '../data/site';
+import SmartImage from './ui/SmartImage.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const v = c.villa;
+---
+<section class="relative overflow-hidden bg-sumi py-24 text-washi md:py-36" aria-labelledby="villa-title">
+  <div class="shoji pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,rgb(243_237_226/0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgb(243_237_226/0.06)_1px,transparent_1px)]" aria-hidden="true"></div>
+  <div class="container-x relative">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-8">
+        <p class="t-label text-kaki" data-reveal>{v.eyebrow}</p>
+        <h2 id="villa-title" class="t-serif t-h2 mt-5" data-reveal>{v.title}</h2>
+      </div>
+      <p class="vertical-jp t-jp hidden justify-self-end text-xl text-washi/40 lg:col-span-4 lg:block" aria-hidden="true">京都の家 ・ アル・ワスル</p>
+    </div>
+
+    <div class="mt-16 grid gap-4 md:grid-cols-12">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-[2rem] md:col-span-7 md:row-span-2 md:aspect-auto" data-reveal>
+        <div class="h-full w-full" data-drift><SmartImage name="villa-facade" alt="" sizes="(min-width: 768px) 58vw, 90vw" jp="家" /></div>
+      </div>
+      <div class="relative aspect-[4/3] overflow-hidden rounded-[2rem] md:col-span-5" data-reveal>
+        <SmartImage name="sushi-counter" alt="" sizes="(min-width: 768px) 40vw, 90vw" jp="寿司" />
+      </div>
+      <div class="relative aspect-[4/3] overflow-hidden rounded-[2rem] md:col-span-5" data-reveal>
+        <SmartImage name="matcha-bar" alt="" sizes="(min-width: 768px) 40vw, 90vw" jp="抹茶" />
+      </div>
+    </div>
+
+    <ul class="mt-16 grid gap-10 md:grid-cols-3">
+      {v.points.map((p) => (
+        <li class="border-t border-washi/25 pt-6" data-reveal>
+          <span class="t-jp text-3xl text-kaki" aria-hidden="true">{p.jp}</span>
+          <h3 class="t-serif mt-4 text-[1.9rem]">{p.title}</h3>
+          <p class="t-body mt-3 text-washi/70">{p.text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-16 flex flex-col items-start justify-between gap-6 rounded-[2rem] border border-washi/20 p-8 md:flex-row md:items-center" data-reveal>
+      <div>
+        <h3 class="t-serif text-[2rem]">{v.privateTitle}</h3>
+        <p class="t-body mt-2 text-washi/70">{v.privateText}</p>
+      </div>
+      <a href={`tel:${site.phone}`} class="btn btn-line shrink-0 hover:!border-washi hover:!bg-washi hover:!text-sumi">{c.cta.call} · <span dir="ltr">{site.phoneDisplay}</span></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import type { Content } from '../data/content';
+import { site } from '../data/site';
+import Hanko from './art/Hanko.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const r = c.reviews;
+---
+<section class="relative py-24 md:py-36" aria-labelledby="reviews-title">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div>
+        <p class="t-label text-shu-ink" data-reveal>{r.eyebrow}</p>
+        <h2 id="reviews-title" class="t-serif t-h2 mt-5 max-w-3xl" data-reveal>{r.title}</h2>
+      </div>
+      <Hanko class="hidden w-20 rotate-[-8deg] md:block" />
+    </div>
+    <ul class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {r.items.map((it, i) => (
+        <li class:list={['flex flex-col justify-between gap-8 rounded-[1.8rem] border-[1.5px] border-line bg-[#fbf7f0] p-7', i === 0 && 'lg:row-span-2 bg-shu! text-washi border-shu!']} data-reveal>
+          <p class="t-serif text-[1.55rem] leading-snug" class:list={[i === 0 && 'text-[2.1rem]']}>“{it.text}”</p>
+          <p class="t-label flex items-center justify-between !font-normal opacity-80"><span aria-label="5 stars">★★★★★</span><span>{r.source}</span></p>
+        </li>
+      ))}
+    </ul>
+    <a href={site.mapsUrl} target="_blank" rel="noopener" class="t-label mt-8 inline-block border-b-[1.5px] border-shu pb-1 text-shu-ink">{r.cta}</a>
+  </div>
+</section>

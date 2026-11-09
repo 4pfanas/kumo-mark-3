@@ -1,0 +1,31 @@
+---
+import type { Content } from '../data/content';
+import { site } from '../data/site';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const f = c.footer;
+---
+<footer class="relative overflow-hidden bg-shu pt-20 text-washi">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-10 md:flex-row md:items-end">
+      <p class="t-serif max-w-xl text-[clamp(2rem,4vw,3.4rem)] leading-tight">{f.line}</p>
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap gap-x-8 gap-y-3">
+          {c.nav.links.map((l) => <li><a href={l.href} class="t-label hover:underline">{l.label}</a></li>)}
+          <li><a href={site.bookUrl} target="_blank" rel="noopener" class="t-label hover:underline">{c.cta.book}</a></li>
+          <li><a href="#top" class="t-label hover:underline" data-to-top>{f.top}</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="relative mt-16" aria-hidden="true">
+      <p class="wordmark select-none text-center text-[clamp(6rem,27vw,26rem)] leading-[0.8] text-washi" data-footer-mark>Kumo</p>
+      <Cloud face class="bob absolute end-[6%] top-[-14%] w-[14vw] max-w-40" />
+    </div>
+    <div class="flex flex-col gap-2 border-t border-washi/25 py-6 text-[0.75rem] opacity-80 md:flex-row md:justify-between">
+      <p>{f.rights}</p>
+      {site.isConcept && <p>{f.conceptNote}</p>}
+    </div>
+  </div>
+</footer>

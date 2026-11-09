@@ -1,0 +1,59 @@
+---
+import type { Content } from '../data/content';
+import { site } from '../data/site';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const t = c.tray;
+---
+<button type="button" class="tray-fab fixed bottom-5 end-5 z-40 flex items-center gap-3 rounded-full bg-sumi py-2.5 ps-3 pe-5 text-washi shadow-[0_10px_30px_-10px_rgba(43,30,26,0.6)]" data-tray-open aria-haspopup="dialog" hidden>
+  <span class="grid h-9 w-9 place-items-center rounded-full bg-shu font-semibold" data-tray-count>0</span>
+  <span class="flex flex-col items-start leading-tight">
+    <span class="t-label !text-[0.62rem] opacity-70">{t.title} <span class="t-jp">{t.jp}</span></span>
+    <span class="text-[0.95rem] font-semibold" data-tray-total-fab></span>
+  </span>
+</button>
+
+<dialog class="tray-dialog m-0 ms-auto h-[100dvh] max-h-none w-full max-w-md bg-washi p-0 text-sumi" data-tray aria-labelledby="tray-title">
+  <div class="washi flex h-full flex-col">
+    <div class="flex items-center justify-between border-b-[1.5px] border-shu px-6 py-5">
+      <h2 id="tray-title" class="t-serif text-4xl text-shu">{t.title} <span class="t-jp ms-1 text-lg text-shu-ink">{t.jp}</span></h2>
+      <button type="button" class="grid h-10 w-10 place-items-center rounded-full border-[1.5px] border-line" data-tray-close aria-label={t.close}>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="m1 1 10 10M11 1 1 11" stroke="currentColor" stroke-width="1.6" /></svg>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto px-6" data-lenis-prevent>
+      <div class="hidden flex-col items-center gap-5 py-16 text-center" data-tray-empty>
+        <Cloud face class="breathe w-28" />
+        <p class="t-body text-sumi-soft">{t.empty}</p>
+      </div>
+      <ul data-tray-list></ul>
+    </div>
+    <div class="border-t-[1.5px] border-shu px-6 py-5">
+      <div class="flex items-baseline justify-between">
+        <span class="t-label text-shu-ink">{t.total}</span>
+        <span class="t-serif text-4xl" data-tray-total></span>
+      </div>
+      <p class="mt-2 text-[0.8rem] leading-relaxed text-sumi-soft">{t.note}</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        <button type="button" class="btn btn-red btn-sm" data-tray-copy data-label={t.copy} data-done={t.copied}>{t.copy}</button>
+        <a href={site.bookUrl} target="_blank" rel="noopener" class="btn btn-line btn-sm">{c.cta.book}</a>
+        <button type="button" class="btn btn-sm ms-auto text-sumi-soft underline-offset-4 hover:underline" data-tray-clear>{t.clear}</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .tray-fab { transition: transform 0.5s var(--ease-cloud); }
+  .tray-fab:hover { transform: translateY(-3px); }
+  .tray-fab.bump { animation: bump 0.5s var(--ease-cloud); }
+  @keyframes bump { 40% { transform: scale(1.08); } }
+  .tray-dialog::backdrop { background: rgb(43 30 26 / 0.4); backdrop-filter: blur(3px); }
+  .tray-dialog[open] { animation: slideIn 0.55s var(--ease-cloud); }
+  @keyframes slideIn { from { transform: translateX(100%); } }
+  :global([dir='rtl']) .tray-dialog[open] { animation-name: slideInRtl; }
+  @keyframes slideInRtl { from { transform: translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) { .tray-dialog[open] { animation: none; } }
+</style>

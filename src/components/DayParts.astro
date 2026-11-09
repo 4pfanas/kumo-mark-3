@@ -1,0 +1,50 @@
+---
+import type { Content } from '../data/content';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const d = c.day;
+const cards = [
+  { key: 'cafe', ...d.cafe, cls: 'bg-matcha text-sumi', jpCls: 'text-matcha-deep/25' },
+  { key: 'main', ...d.main, cls: 'bg-shu text-washi', jpCls: 'text-washi/20' },
+] as const;
+---
+<section class="relative py-20 md:py-32" aria-labelledby="day-title">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div>
+        <p class="t-label text-shu-ink" data-reveal>{d.eyebrow}</p>
+        <h2 id="day-title" class="t-serif t-h2 mt-5" data-reveal>{d.title}</h2>
+      </div>
+      <p class="t-body max-w-xs text-sumi-soft" data-reveal>{d.hint}</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 md:grid-cols-2">
+      {cards.map((k) => (
+        <a href="#menu" data-open-menu={k.key} class:list={['day-card group relative isolate flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-[2rem] p-8 md:p-10', k.cls]} data-reveal data-daycard={k.key}>
+          <span class:list={['t-jp pointer-events-none absolute -end-4 -top-8 -z-10 whitespace-nowrap text-[clamp(7rem,12vw,11rem)] leading-none transition-transform duration-1000 group-hover:-translate-y-3', k.jpCls]} aria-hidden="true">{k.jp}</span>
+          <div class="flex items-center justify-between gap-4">
+            <span class="t-label">{k.time}</span>
+            <span class="now-badge t-label hidden rounded-full bg-washi px-3 py-1.5 text-sumi">● {c.status.nowServing}</span>
+          </div>
+          <div>
+            <Cloud face tone={k.key === 'main' ? 'red' : 'paper'} class:list={['bob mb-6 w-24', k.key === 'main' && '[&_path:first-child]:stroke-washi']} />
+            <h3 class="t-serif t-h3">{k.name}</h3>
+            <p class="t-body mt-4 max-w-md opacity-85">{k.line}</p>
+            <span class="t-label mt-8 inline-flex items-center gap-3 border-b-[1.5px] border-current pb-1">{k.cta}
+              <svg class="arrow transition-transform group-hover:translate-x-1 rtl:-scale-x-100" width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .day-card { transition: transform 0.7s var(--ease-cloud), box-shadow 0.7s; }
+  .day-card:hover { transform: translateY(-6px); }
+  .day-card.is-now { box-shadow: 0 0 0 3px var(--color-washi), 0 0 0 5px var(--color-sumi); }
+  .day-card.is-now .now-badge { display: inline-block; }
+</style>

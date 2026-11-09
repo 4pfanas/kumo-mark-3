@@ -1,0 +1,168 @@
+---
+import type { Lang } from '../data/site';
+import type { Content } from '../data/content';
+import { menus } from '../data/menu';
+import { itemText, sectionText, chapterText } from '../lib/menuL10n';
+import { num } from '../lib/format';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const m = c.menu;
+const panels = (['main', 'cafe'] as const).map((key) => ({ key, chapters: menus[key].chapters }));
+const arTags = { S: 'ح', R: 'ن', V: 'ن.ب' } as const; // KUMO's own Arabic markers
+const tagLabel = (t: 'S' | 'R' | 'V') => (lang === 'ar' ? arTags[t] : t);
+const count = (key: 'main' | 'cafe') =>
+  menus[key].chapters.reduce((a, ch) => a + ch.sections.reduce((b, s) => b + s.items.length, 0), 0);
+---
+<section id="menu" class="relative scroll-mt-16 border-t-[1.5px] border-shu bg-washi py-20 md:py-32" aria-labelledby="menu-title">
+  <div class="container-x">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="t-label text-shu-ink" data-reveal>{m.eyebrow}</p>
+        <h2 id="menu-title" class="t-serif t-h2 mt-5" data-reveal>{m.title}</h2>
+      </div>
+      <div class="lg:col-span-5" data-reveal>
+        <div role="tablist" aria-label={m.eyebrow} class="grid grid-cols-2 gap-2 rounded-[1.4rem] border-[1.5px] border-line p-1.5">
+          {panels.map((p) => (
+            <button type="button" role="tab" id={`tab-${p.key}`} aria-controls={`panel-${p.key}`} aria-selected={p.key === 'main' ? 'true' : 'false'} data-tab={p.key}
+              class="menu-tab flex flex-col items-start gap-1 rounded-[1.05rem] px-4 py-3 text-start">
+              <span class="flex w-full items-baseline justify-between gap-2">
+                <span class="t-serif text-[1.6rem]">{m.tabs[p.key]}</span>
+                <span class="t-jp text-sm opacity-70">{m.tabsJp[p.key]}</span>
+              </span>
+              <span class="t-label !text-[0.64rem] opacity-75">{m.availability[p.key]} · {num(count(p.key), lang)} {m.count}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- toolbar -->
+    <div class="menu-toolbar sticky top-[72px] z-30 -mx-5 mt-10 border-b border-line bg-washi/92 px-5 py-4 backdrop-blur-md md:mx-0 md:rounded-2xl md:border md:px-4">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center">
+        <label class="relative flex-1">
+          <span class="sr-only">{m.searchLabel}</span>
+          <svg class="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-shu" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="m11 11 4 4" stroke="currentColor" stroke-width="1.6" /></svg>
+          <input type="search" data-menu-search placeholder={m.search} autocomplete="off" enterkeyhint="search"
+            class="h-12 w-full rounded-full border-[1.5px] border-line bg-[#fbf7f0] ps-11 pe-4 text-[0.9rem] outline-none transition-colors placeholder:text-sumi-soft/60 focus:border-shu" />
+        </label>
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filters">
+          {(['S', 'R', 'V'] as const).map((t) => (
+            <button type="button" class="chip" aria-pressed="false" data-filter={t}>{m.filters[t]}</button>
+          ))}
+          <button type="button" class="chip" aria-pressed="false" data-filter="noRaw">{m.filters.noRaw}</button>
+        </div>
+      </div>
+    </div>
+
+    {panels.map((p) => (
+      <div role="tabpanel" data-first-chapter={p.chapters[0].id} id={`panel-${p.key}`} aria-labelledby={`tab-${p.key}`} data-panel={p.key} hidden={p.key !== 'main'} class="mt-10 grid gap-10 lg:grid-cols-12">
+        <nav class="hidden lg:col-span-3 lg:block" aria-label={m.tabs[p.key]}>
+          <ol class="sticky top-[176px] flex flex-col gap-1">
+            {p.chapters.map((ch, i) => (
+              <li>
+                <a href={`#ch-${p.key}-${ch.id}`} data-chapter-link class="chapter-link group flex items-baseline gap-3 rounded-xl px-3 py-2.5">
+                  <span class="t-label w-6 text-shu-ink/50">{num(i + 1, lang)}</span>
+                  <span class="t-serif text-[1.35rem] leading-tight">{chapterText(ch, lang)}</span>
+                  <span class="t-jp ms-auto text-xs text-shu-ink/60">{ch.jp}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <div class="min-w-0 lg:col-span-9">
+          <ol class="chapter-chips -mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:hidden" aria-label={m.tabs[p.key]}>
+            {p.chapters.map((ch) => (
+              <li class="shrink-0"><a href={`#ch-${p.key}-${ch.id}`} data-chapter-link class="chapter-chip flex items-baseline gap-2 rounded-full border-[1.5px] border-line px-4 py-2">
+                <span class="t-serif text-[1.15rem]">{chapterText(ch, lang)}</span><span class="t-jp text-[0.7rem] opacity-70">{ch.jp}</span>
+              </a></li>
+            ))}
+          </ol>
+          {p.chapters.map((ch, ci) => (
+            <div id={`ch-${p.key}-${ch.id}`} class="menu-chapter scroll-mt-48 pb-6" data-chapter>
+              <div class="flex items-end justify-between gap-6 border-b-[1.5px] border-shu pb-5">
+                <h3 class="t-serif text-[clamp(2.4rem,5vw,4.2rem)] text-shu">{chapterText(ch, lang)}</h3>
+                <span class="t-jp pb-2 text-xl text-shu-ink" aria-hidden="true">{ch.jp}</span>
+              </div>
+              {ch.sections.map((s) => {
+                const st = sectionText(s, lang);
+                return (
+                  <div class="menu-section mt-10" data-section>
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                      <h4 class="t-label text-[0.8rem] text-sumi">{st.title} <span class="t-jp ms-2 font-normal text-shu-ink/70">{s.jp}</span></h4>
+                      {st.tagline && <p class="t-label !font-normal text-shu-ink/80">{st.tagline}</p>}
+                    </div>
+                    {st.note && <p class="t-body mt-2 text-sm text-sumi-soft">{st.note}</p>}
+                    <ul class="mt-3">
+                      {s.items.map((it) => {
+                        const tx = itemText(it, lang);
+                        return (
+                          <li class="menu-item group flex items-start gap-4 border-b border-line py-4" data-id={it.id} data-tags={(it.tags ?? []).join(' ')}>
+                            <div class="min-w-0 flex-1">
+                              <p class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                                <span class="item-name font-semibold uppercase tracking-[0.06em] text-shu-ink rtl:normal-case rtl:tracking-normal">{tx.name}</span>
+                                {(it.tags ?? []).map((t) => (
+                                  <span class:list={['tag', `tag-${t}`]} title={m.filters[t]}>{tagLabel(t)}</span>
+                                ))}
+                              </p>
+                              {tx.desc && <p class="mt-1 text-[0.86rem] leading-relaxed text-sumi-soft rtl:text-[1rem]">{tx.desc}</p>}
+                            </div>
+                            <span class="price shrink-0 pt-0.5 text-[0.95rem] font-semibold text-sumi"><span class="me-1 text-[0.62rem] font-normal text-sumi-soft">{m.currency}</span>{num(it.price, lang)}</span>
+                            <button type="button" class="tray-btn grid h-9 w-9 shrink-0 place-items-center rounded-full border-[1.5px] border-line text-shu transition-colors hover:border-shu" aria-pressed="false" data-tray-add={it.id} aria-label={`${m.add}: ${tx.name}`}>
+                              <svg class="plus" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0v12M0 6h12" stroke="currentColor" stroke-width="1.6" /></svg>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                );
+              })}
+              {p.chapters[ci + 1] && (
+                <a href={`#ch-${p.key}-${p.chapters[ci + 1].id}`} data-chapter-link data-next class="next-chapter group mt-12 flex items-center justify-between gap-6 rounded-[1.6rem] border-[1.5px] border-line px-6 py-5 transition-colors hover:border-shu">
+                  <span class="t-label text-shu-ink">{lang === 'ar' ? 'التالي' : 'Next'}</span>
+                  <span class="flex items-baseline gap-3"><span class="t-serif text-[1.8rem]">{chapterText(p.chapters[ci + 1], lang)}</span><span class="t-jp text-sm text-shu-ink">{p.chapters[ci + 1].jp}</span>
+                  <svg class="arrow self-center transition-transform group-hover:translate-x-1 rtl:-scale-x-100" width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" /></svg></span>
+                </a>
+              )}
+            </div>
+          ))}
+          <div class="menu-empty hidden flex-col items-center gap-5 py-20 text-center" data-menu-empty>
+            <Cloud face class="breathe w-32" />
+            <p class="t-body text-sumi-soft">{m.empty}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+
+    <div class="mt-4 flex flex-col gap-2 border-t border-line pt-6 md:flex-row md:justify-between">
+      <p class="t-label !font-normal text-shu-ink">{m.legend}</p>
+      <p class="t-label !font-normal text-shu-ink">{m.allergy}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu-tab { transition: background-color 0.4s, color 0.4s; color: var(--color-sumi); }
+  .menu-tab:hover { background: var(--accent-soft); }
+  .menu-tab[aria-selected='true'] { background: var(--color-shu); color: var(--color-washi); }
+  .menu-tab[data-tab='cafe'][aria-selected='true'] { background: var(--color-matcha-deep); }
+  .chapter-link { transition: background-color 0.3s, color 0.3s; color: var(--color-sumi-soft); }
+  .chapter-link:hover, .chapter-link.is-active { background: var(--accent-soft); color: var(--color-sumi); }
+  .chapter-link.is-active .t-serif { color: var(--color-shu); }
+  .chapter-chip { transition: background-color 0.3s, color 0.3s; }
+  .chapter-chip.is-active { background: var(--color-shu); border-color: var(--color-shu); color: var(--color-washi); }
+  .chapter-chips { scrollbar-width: none; }
+  .is-filtering .next-chapter { display: none; }
+  .tag { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; padding-inline: 0.3rem; border-radius: 999px; font-size: 0.6rem; font-weight: 600; border: 1.3px solid currentColor; }
+  :global(html[lang='ar']) .tag { font-size: 0.72rem; padding-inline: 0.5rem; }
+  .tag-S { color: var(--color-shu); }
+  .tag-R { color: var(--color-kaki); }
+  .tag-V { color: var(--color-matcha-deep); }
+  .menu-item { transition: background-color 0.3s; }
+  .menu-item.is-hit .item-name { background: linear-gradient(transparent 62%, rgb(211 59 36 / 0.18) 62%); }
+  .menu-empty.is-shown { display: flex; }
+  .menu-chapter[hidden] { display: none; }
+</style>

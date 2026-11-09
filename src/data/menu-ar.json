@@ -1,0 +1,550 @@
+{
+  "chapters": {
+    "starters": {
+      "title": "المقبلات"
+    },
+    "sushi": {
+      "title": "بار السوشي"
+    },
+    "robata": {
+      "title": "روباتا"
+    },
+    "dezato": {
+      "title": "الحلويات"
+    },
+    "matcha-bar": {
+      "title": "بار الماتشا"
+    },
+    "cafe-kumo": {
+      "title": "كافيه كومو"
+    },
+    "cafe-matcha-bar": {
+      "title": "بار الماتشا"
+    }
+  },
+  "sections": {
+    "raw": {
+      "title": "نيء",
+      "tagline": "مقطّع بعناية، يُقدَّم بجرأة"
+    },
+    "salads": {
+      "title": "السلطات",
+      "tagline": "خفيف، متعدد الطبقات، غني بالقوام"
+    },
+    "hot-starters": {
+      "title": "المقبلات الساخنة",
+      "tagline": "حرارة مميزة، بداية جريئة"
+    },
+    "nigiri": {
+      "title": "نيجيري",
+      "tagline": "لقيمات مُحضّرة بعناية مع إضافات مميزة، قطعتان",
+      "note": "*النيجيري التقليدي متوفر عند الطلب."
+    },
+    "handrolls": {
+      "title": "هاند رول",
+      "tagline": "نوري مقرمش، يُلفّ حسب الطلب، قطعة واحدة"
+    },
+    "maki": {
+      "title": "لفائف ماكي",
+      "tagline": "لفائف مميزة، مع صلصات خاصة بالمنزل"
+    },
+    "buns": {
+      "title": "الساندويشات",
+      "tagline": "طريّ، ساخن بالبخار، غنيّ بالنكهات"
+    },
+    "robata": {
+      "title": "روباتا",
+      "tagline": "مدخّن، طريّ، من على الفحم"
+    },
+    "robata-sides": {
+      "title": "أطباق روباتا الجانبية",
+      "tagline": "مشوية، مغطاة بصلصة لامعة بإتقان"
+    },
+    "rice-pots": {
+      "title": "قدر رز",
+      "tagline": "أرز مع طبقات من الإضافات"
+    },
+    "desserts": {
+      "title": "الحلويات",
+      "tagline": "نهايات حلوة، مُحضّرة بروح كيوتو"
+    },
+    "mocktails": {
+      "title": "موكتيلات كومو"
+    },
+    "matcha": {
+      "title": "تشكيلة الماتشا"
+    },
+    "coffee": {
+      "title": "تشكيلة القهوة"
+    },
+    "tea": {
+      "title": "تشكيلة الشاي"
+    },
+    "water": {
+      "title": "المياه والمشروبات الغازية"
+    },
+    "egg-sando": {
+      "title": "ساندو البيض"
+    },
+    "morning-dessert": {
+      "title": "حلويات الصباح"
+    }
+  },
+  "items": {
+    "salmon-tiradito": {
+      "name": "سلمون تيراديتو",
+      "desc": "شرائح سلمون رقيقة، بونزو، سمسم"
+    },
+    "yellowtail-tiradito": {
+      "name": "يلو تيل تيراديتو",
+      "desc": "صلصة اليوزو بالكمأة"
+    },
+    "wagyu-tataki": {
+      "name": "واجيو تاتاكي",
+      "desc": "واجيو ياباني A5، صلصة حمضيات بنكهة الأومامي"
+    },
+    "akami-tataki": {
+      "name": "أكامي تاتاكي",
+      "desc": "بونزو، ثوم مقرمش"
+    },
+    "baby-spinach-salad": {
+      "name": "سلطة سبانخ صغيرة",
+      "desc": "فطر شيتاكي مقرمش، صلصة السمسم (غوما)"
+    },
+    "kale-salad": {
+      "name": "سلطة الكيل",
+      "desc": "كينوا مقرمشة، فجل، إدامامي، صويا بالحمضيات"
+    },
+    "edamame": {
+      "name": "إدامامي",
+      "desc": "بشر الليمون، ملح البحر"
+    },
+    "spicy-edamame": {
+      "name": "إدامامي حار",
+      "desc": "صلصة الفلفل الحار، ملح البحر"
+    },
+    "baby-squid": {
+      "name": "حبار صغير",
+      "desc": "ملح وخل، صلصة أجي فيردي"
+    },
+    "prawn-tempura": {
+      "name": "روبيان تمبورا",
+      "desc": "خلطة التوابل اليابانية السبع، صلصة تينتسويو"
+    },
+    "crispy-prawn-gyoza": {
+      "name": "جيوزا روبيان مقرمشة",
+      "desc": "بونزو رايو، صويا بالحمضيات، زيت الفلفل الحار"
+    },
+    "crispy-beef-gyoza": {
+      "name": "جيوزا لحم مقرمشة",
+      "desc": "غوما بالكمأة"
+    },
+    "spicy-chicken-karaage": {
+      "name": "كاراجي دجاج حار",
+      "desc": "صلصة حارة، خلطة التوابل اليابانية السبع"
+    },
+    "wagyu-potato-taco": {
+      "name": "تاكو بطاطا مع واجيو",
+      "desc": "بطاطا حلوة مقرمشة، واجيو، فلفل حار مدخّن"
+    },
+    "salmon-crispy-rice": {
+      "name": "أرز مقرمش مع سلمون",
+      "desc": "كيمتشي حار، أفوكادو"
+    },
+    "tuna-crispy-rice": {
+      "name": "أرز مقرمش مع تونة",
+      "desc": "كيمتشي حار، أفوكادو"
+    },
+    "nigiri-salmon": {
+      "name": "سلمون",
+      "desc": "كمأة، يوزو"
+    },
+    "nigiri-salmon-belly-aburi": {
+      "name": "أبوري بطن السلمون",
+      "desc": "صويا حلوة، ملح البحر"
+    },
+    "nigiri-wagyu": {
+      "name": "واجيو",
+      "desc": "واجيو ياباني A5، زبدة التوغاراشي"
+    },
+    "nigiri-langoustine": {
+      "name": "لانغوستين",
+      "desc": "زبدة الروكوتو"
+    },
+    "nigiri-hamachi": {
+      "name": "هاماشي",
+      "desc": "صويا بالفلفل الحار، ثوم مقرمش"
+    },
+    "nigiri-chutoro": {
+      "name": "تشوتورو",
+      "desc": "تونة يابانية زرقاء الزعانف، صويا حلوة"
+    },
+    "nigiri-o-toro": {
+      "name": "أوتورو",
+      "desc": "تونة يابانية زرقاء الزعانف، بونزو، يوزو كوشو"
+    },
+    "nigiri-scallop": {
+      "name": "اسكالوب",
+      "desc": "كمأة، يوزو"
+    },
+    "handroll-salmon": {
+      "name": "هاند رول سلمون",
+      "desc": "كيمتشي، خيار، بصل مقرمش"
+    },
+    "handroll-tuna": {
+      "name": "هاند رول تونة",
+      "desc": "كيمتشي، خيار، بصل مقرمش"
+    },
+    "maki-dragon": {
+      "name": "دراگون رول",
+      "desc": "روبيان تمبورا، أفوكادو، خيار، سمسم أبيض، صلصة دراگون · 8 قطع"
+    },
+    "maki-kumo-roll": {
+      "name": "كومو رول",
+      "desc": "روبيان تمبورا، أفوكادو، غوتشوجانغ، كينوا مقرمشة · 6 قطع"
+    },
+    "maki-volcano": {
+      "name": "فولكانو رول",
+      "desc": "روبيان تمبورا، تارتار سلمون، خيار، هليون، توغاراشي · 5 قطع"
+    },
+    "maki-spicy-tuna": {
+      "name": "تونا رول حار",
+      "desc": "تونة، أفوكادو، خيار، صلصة الكيمتشي، توغاراشي · 5 قطع"
+    },
+    "japanese-burger": {
+      "name": "برغر ياباني",
+      "desc": "قرص لحم A5، جبن بروفولوني ذائب، أيولي الكيمتشي، صلصة تونكاتسو، خبز الحليب الياباني"
+    },
+    "shabu-shabu-bun": {
+      "name": "ساندو شابو شابو",
+      "desc": "شابو شابو A5، خبز ياباني بنكهة الكمأة"
+    },
+    "wagyu-sando": {
+      "name": "ساندو واجيو",
+      "desc": "تندرلوين واجيو، صلصة بونزو يوزو، خبز العجين المخمّر المشوي على الفحم، جبن بروفولوني"
+    },
+    "chicken-sando": {
+      "name": "ساندو دجاج",
+      "desc": "فيليه دجاج، صلصة أجي فيردي، خبز العجين المخمّر المشوي على الفحم، جبن بروفولوني"
+    },
+    "bluefin-tuna-sando": {
+      "name": "ساندو تونة بلوفين",
+      "desc": "تونة زرقاء الزعانف، زبدة التوغاراشي، خبز العجين المخمّر المشوي على الفحم، جبن بروفولوني"
+    },
+    "wagyu-mb9": {
+      "name": "تندرلوين واجيو MB9",
+      "desc": "غوما بالكمأة، سمسم"
+    },
+    "wagyu-mb7": {
+      "name": "تندرلوين واجيو MB7",
+      "desc": "غوما بالكمأة، سمسم"
+    },
+    "robata-seabass": {
+      "name": "سي باس تشيلي",
+      "desc": "ميسو الجريب فروت، صلصة غوتشوجانغ"
+    },
+    "chicken-skewers": {
+      "name": "أسياخ دجاج",
+      "desc": "دجاج متبّل بالتوفو، أجي فيردي"
+    },
+    "maitake": {
+      "name": "فطر مايتاكي",
+      "desc": "فطر ياباني، غوما كوشو، يوزو حلو"
+    },
+    "broccolini": {
+      "name": "بروكوليني",
+      "desc": "غوما كوشو، يوزو حلو"
+    },
+    "crispy-potato": {
+      "name": "بطاطا مقرمشة",
+      "desc": "كريمة حامضة بالأعشاب اليابانية"
+    },
+    "kumo-baked-potato": {
+      "name": "بطاطا كومو المخبوزة",
+      "desc": "يوزو، شيسو، يوزو كوشو أحمر"
+    },
+    "grilled-corn": {
+      "name": "ذرة مشوية",
+      "desc": "زبدة الليمون الأخضر، توغاراشي، صلصة الكريمة الحامضة بالليمون الأخضر"
+    },
+    "padron-pepper": {
+      "name": "فلفل بادرون",
+      "desc": "ترياكي اليوزو، توغاراشي"
+    },
+    "rice-truffle-mushroom": {
+      "name": "فطر بالكمأة",
+      "desc": "صويا، فطر ياباني"
+    },
+    "rice-seabass": {
+      "name": "قاروص تشيلي",
+      "desc": "ترياكي اليوزو"
+    },
+    "churros": {
+      "name": "تشوروز",
+      "desc": "دولسي دي ليتشي، شوكولاتة داكنة"
+    },
+    "kumo-cloud": {
+      "name": "كومو كلاود",
+      "desc": "آيس كريم القهوة بالميسو، فتات أوريو، غلاف شوكولاتة"
+    },
+    "matcha-yogurt": {
+      "name": "زبادي ماتشا",
+      "desc": "آيس كريم، فراولة، فتات البسكويت"
+    },
+    "sesame-fondant": {
+      "name": "فوندو شوكولاتة بالسمسم",
+      "desc": "آيس كريم جوز الهند بالفانيليا"
+    },
+    "yuzu-cheesecake": {
+      "name": "تشيز كيك يوزو",
+      "desc": "دولسي دي ليتشي، يوزو"
+    },
+    "cherry-blossom": {
+      "name": "زهرة الكرز",
+      "desc": "كرز، ليتشي، زهرة وردية"
+    },
+    "passionfruit-mojito": {
+      "name": "موهيتو الباشن فروت",
+      "desc": "باشن فروت، يوزو، قطع الباشن فروت"
+    },
+    "strawberry-mojito": {
+      "name": "موهيتو الفراولة",
+      "desc": "فراولة، يوزو، نعناع"
+    },
+    "yuzu-lemonade": {
+      "name": "ليمونادة اليوزو",
+      "desc": "يوزو، ليمونادة"
+    },
+    "salted-vanilla-cloud-matcha": {
+      "name": "ماتشا كلاود بالفانيليا المملحة",
+      "desc": "فانيليا، ماتشا، حليب طازج، سكر، كريمة"
+    },
+    "kinako-matcha": {
+      "name": "ماتشا كيناكو",
+      "desc": "كيناكو، حليب الشوفان، سكر، كريمة"
+    },
+    "dark-chocolate-matcha": {
+      "name": "ماتشا الشوكولاتة الداكنة",
+      "desc": "شوكولاتة داكنة، فانيليا، حليب طازج"
+    },
+    "strawberry-cloud-matcha": {
+      "name": "ماتشا كلاود الفراولة",
+      "desc": "شراب الفراولة، كريمة، حليب طازج وماتشا"
+    },
+    "mango-cloud-matcha": {
+      "name": "مانجو كلاود ماتشا",
+      "desc": "هريس المانجو، كريمة الحليب الطازج وماتشا"
+    },
+    "coconut-cloud-matcha": {
+      "name": "جوز الهند كلاود ماتشا",
+      "desc": "شاي ماتشا، ماء جوز الهند"
+    },
+    "matcha-latte": {
+      "name": "ماتشا لاتيه",
+      "desc": "شاي ماتشا، حليب"
+    },
+    "espresso": {
+      "name": "إسبريسو"
+    },
+    "espresso-macchiato": {
+      "name": "إسبريسو ماكياتو"
+    },
+    "cortado": {
+      "name": "كورتادو"
+    },
+    "piccolo": {
+      "name": "بيكولو"
+    },
+    "flat-white": {
+      "name": "فلات وايت"
+    },
+    "cappuccino": {
+      "name": "كابتشينو"
+    },
+    "latte": {
+      "name": "لاتيه"
+    },
+    "spanish-latte": {
+      "name": "سبانش لاتيه"
+    },
+    "americano": {
+      "name": "أمريكانو"
+    },
+    "v60": {
+      "name": "في 60"
+    },
+    "lemon-black-tea": {
+      "name": "شاي أسود بالليمون"
+    },
+    "strawberry-sencha": {
+      "name": "شاي سينشا بالفراولة"
+    },
+    "japanese-earl-grey": {
+      "name": "شاي إيرل غراي الياباني"
+    },
+    "fukamushi-sencha": {
+      "name": "شاي سينشا فوكاموشي"
+    },
+    "fiji-small": {
+      "name": "مياه فيجي معدنية (صغير)"
+    },
+    "fiji-large": {
+      "name": "مياه فيجي معدنية (كبير)"
+    },
+    "pellegrino": {
+      "name": "سان بيليغرينو مياه غازية (صغير)"
+    },
+    "ginger-ale": {
+      "name": "جينجر أيل"
+    },
+    "soft-drinks": {
+      "name": "مشروبات غازية",
+      "desc": "كوكاكولا، كوكاكولا زيرو/لايت، فانتا، سبرايت"
+    },
+    "kumo-egg-sando": {
+      "name": "ساندو بيض كومو",
+      "desc": "خبز الحليب الياباني بطبقات من صلصة مورني والبيض على الطريقة اليابانية"
+    },
+    "japanese-egg-sando": {
+      "name": "ساندو بيض ياباني",
+      "desc": "خبز الحليب الياباني بطبقات من فوريكاكي السمسم والبيض على الطريقة اليابانية"
+    },
+    "avocado-sando": {
+      "name": "ساندو أفوكادو",
+      "desc": "خبز حليب هوكايدو، أفوكادو مهروس، بيض على الطريقة اليابانية"
+    },
+    "honey-toast": {
+      "name": "توست بالعسل",
+      "desc": "خبز حليب هوكايدو مغطى بالعسل والزبدة"
+    },
+    "crispy-croissant": {
+      "name": "كرواسون مقرمش",
+      "desc": "كرواسون طازج من الفرن مع زبدة العسل وشهد العسل والقهوة"
+    },
+    "miso-butter-pancakes": {
+      "name": "بانكيك بزبدة الميسو",
+      "desc": "بانكيك ياباني مع زبدة العسل بالميسو"
+    }
+  },
+  "allergyNote": "هل لديكم أي حساسية؟ يرجى إبلاغ فريقنا",
+  "legend": "(ح) حار / (ن) نيء / (ن.ب) نباتي",
+  "tagLetters": {
+    "S": "ح",
+    "R": "ن",
+    "V": "ن.ب"
+  },
+  "sourceNotes": {
+    "raw": "from-menu",
+    "salads": "from-menu",
+    "hot-starters": "from-menu",
+    "nigiri": "from-menu",
+    "handrolls": "from-menu",
+    "maki": "from-menu",
+    "buns": "from-menu",
+    "robata": "from-menu",
+    "robata-sides": "from-menu",
+    "rice-pots": "from-menu",
+    "desserts": "from-menu",
+    "mocktails": "from-menu",
+    "matcha": "from-menu",
+    "coffee": "from-menu",
+    "tea": "from-menu",
+    "water": "translated",
+    "egg-sando": "from-menu",
+    "morning-dessert": "from-menu",
+    "salmon-tiradito": "from-menu",
+    "yellowtail-tiradito": "from-menu",
+    "wagyu-tataki": "from-menu",
+    "akami-tataki": "from-menu",
+    "baby-spinach-salad": "from-menu",
+    "kale-salad": "from-menu",
+    "edamame": "from-menu",
+    "spicy-edamame": "from-menu",
+    "baby-squid": "from-menu",
+    "prawn-tempura": "from-menu",
+    "crispy-prawn-gyoza": "from-menu",
+    "crispy-beef-gyoza": "from-menu",
+    "spicy-chicken-karaage": "from-menu",
+    "wagyu-potato-taco": "from-menu",
+    "salmon-crispy-rice": "from-menu",
+    "tuna-crispy-rice": "from-menu",
+    "nigiri-salmon": "from-menu",
+    "nigiri-salmon-belly-aburi": "from-menu",
+    "nigiri-wagyu": "from-menu",
+    "nigiri-langoustine": "from-menu",
+    "nigiri-hamachi": "from-menu",
+    "nigiri-chutoro": "from-menu",
+    "nigiri-o-toro": "from-menu",
+    "nigiri-scallop": "from-menu",
+    "handroll-salmon": "from-menu",
+    "handroll-tuna": "from-menu",
+    "maki-dragon": "from-menu",
+    "maki-kumo-roll": "from-menu",
+    "maki-volcano": "from-menu",
+    "maki-spicy-tuna": "from-menu",
+    "japanese-burger": "from-menu",
+    "shabu-shabu-bun": "from-menu",
+    "wagyu-sando": "from-menu",
+    "chicken-sando": "from-menu",
+    "bluefin-tuna-sando": "from-menu",
+    "wagyu-mb9": "from-menu",
+    "wagyu-mb7": "from-menu",
+    "robata-seabass": "from-menu",
+    "chicken-skewers": "from-menu",
+    "maitake": "from-menu",
+    "broccolini": "from-menu",
+    "crispy-potato": "from-menu",
+    "kumo-baked-potato": "from-menu",
+    "grilled-corn": "from-menu",
+    "padron-pepper": "from-menu",
+    "rice-truffle-mushroom": "from-menu",
+    "rice-seabass": "from-menu",
+    "churros": "from-menu",
+    "kumo-cloud": "from-menu",
+    "matcha-yogurt": "from-menu",
+    "sesame-fondant": "from-menu",
+    "yuzu-cheesecake": "from-menu",
+    "cherry-blossom": "from-menu",
+    "passionfruit-mojito": "from-menu",
+    "strawberry-mojito": "from-menu",
+    "yuzu-lemonade": "from-menu",
+    "salted-vanilla-cloud-matcha": "from-menu",
+    "kinako-matcha": "from-menu",
+    "dark-chocolate-matcha": "from-menu",
+    "strawberry-cloud-matcha": "from-menu",
+    "mango-cloud-matcha": "from-menu",
+    "coconut-cloud-matcha": "from-menu",
+    "matcha-latte": "from-menu",
+    "espresso": "from-menu",
+    "espresso-macchiato": "from-menu",
+    "cortado": "from-menu",
+    "piccolo": "from-menu",
+    "flat-white": "from-menu",
+    "cappuccino": "from-menu",
+    "latte": "from-menu",
+    "spanish-latte": "from-menu",
+    "americano": "from-menu",
+    "v60": "from-menu",
+    "lemon-black-tea": "from-menu",
+    "strawberry-sencha": "from-menu",
+    "japanese-earl-grey": "from-menu",
+    "fukamushi-sencha": "from-menu",
+    "fiji-small": "from-menu",
+    "fiji-large": "from-menu",
+    "pellegrino": "from-menu",
+    "ginger-ale": "from-menu",
+    "soft-drinks": "from-menu",
+    "kumo-egg-sando": "from-menu",
+    "japanese-egg-sando": "from-menu",
+    "avocado-sando": "from-menu",
+    "honey-toast": "from-menu",
+    "crispy-croissant": "from-menu",
+    "miso-butter-pancakes": "from-menu",
+    "starters": "from-menu",
+    "sushi": "from-menu",
+    "dezato": "from-menu",
+    "matcha-bar": "from-menu",
+    "cafe-kumo": "from-menu",
+    "cafe-matcha-bar": "from-menu"
+  }
+}

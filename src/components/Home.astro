@@ -1,0 +1,49 @@
+---
+import type { Lang } from '../data/site';
+import { site } from '../data/site';
+import { content } from '../data/content';
+import { clientMenu } from '../lib/menuL10n';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import Intro from './Intro.astro';
+import Story from './Story.astro';
+import DayParts from './DayParts.astro';
+import MenuExplorer from './MenuExplorer.astro';
+import AskCloud from './AskCloud.astro';
+import MatchaBar from './MatchaBar.astro';
+import Villa from './Villa.astro';
+import Reviews from './Reviews.astro';
+import Visit from './Visit.astro';
+import Footer from './Footer.astro';
+import Tray from './Tray.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = content[lang];
+const boot = {
+  lang,
+  items: clientMenu(lang),
+  site: { hours: site.hours, cafeWindow: site.cafeWindow, mainStart: site.mainStart, tz: site.tz },
+  t: { status: c.status, ask: c.ask, tray: c.tray, currency: c.menu.currency, add: c.menu.add, remove: c.menu.remove },
+};
+---
+<div id="top"></div>
+<Header c={c} lang={lang} />
+<main id="main">
+  <Intro c={c} />
+  <Hero c={c} />
+  <Story c={c} />
+  <DayParts c={c} />
+  <MenuExplorer c={c} lang={lang} />
+  <AskCloud c={c} />
+  <MatchaBar c={c} lang={lang} />
+  <Villa c={c} />
+  <Reviews c={c} />
+  <Visit c={c} lang={lang} />
+</main>
+<Footer c={c} />
+<Tray c={c} />
+{site.isConcept && (
+  <p class="t-label pointer-events-none fixed bottom-5 start-5 z-30 hidden rounded-full border-[1.5px] border-shu bg-washi/90 px-3 py-2 !text-[0.6rem] text-shu-ink md:block">{c.concept}</p>
+)}
+<script type="application/json" id="kumo-boot" set:html={JSON.stringify(boot)} />

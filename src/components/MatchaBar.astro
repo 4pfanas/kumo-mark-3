@@ -1,0 +1,90 @@
+---
+import type { Lang } from '../data/site';
+import type { Content } from '../data/content';
+import { menus } from '../data/menu';
+import { itemText } from '../lib/menuL10n';
+import { num } from '../lib/format';
+import Cloud from './art/Cloud.astro';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const mt = c.matcha;
+const section = menus.cafe.chapters.flatMap((ch) => ch.sections).find((s) => s.id === 'matcha')!;
+// bottom · middle · crown, as poured
+const layers: Record<string, [string, string, string]> = {
+  'salted-vanilla-cloud-matcha': ['#f1e6cf', '#8fae6a', '#fbf7f0'],
+  'kinako-matcha': ['#eadcc0', '#8fae6a', '#d9b77e'],
+  'dark-chocolate-matcha': ['#4a2c20', '#8fae6a', '#f1e6cf'],
+  'strawberry-cloud-matcha': ['#e5707c', '#f1e6cf', '#f7d9dc'],
+  'mango-cloud-matcha': ['#f2ad38', '#f1e6cf', '#9fbe78'],
+  'coconut-cloud-matcha': ['#eef0e2', '#b3cb8c', '#d7e4c2'],
+  'matcha-latte': ['#f1e6cf', '#8fae6a', '#a9c38b'],
+};
+const items = section.items.map((it) => ({ ...it, tx: itemText(it, lang), l: layers[it.id] ?? ['#f1e6cf', '#8fae6a', '#fbf7f0'] }));
+const first = items[0];
+---
+<section id="matcha" class="relative scroll-mt-16 overflow-hidden py-24 md:py-36" aria-labelledby="matcha-title">
+  <div class="container-x grid items-center gap-14 lg:grid-cols-12">
+    <div class="order-2 lg:order-1 lg:col-span-5">
+      <div class="glass-stage relative mx-auto aspect-[4/5] w-full max-w-md" data-glass style={`--l1:${first.l[0]};--l2:${first.l[1]};--l3:${first.l[2]}`}>
+        <div class="absolute inset-x-[8%] bottom-[6%] top-[18%] rounded-[2.4rem] bg-matcha/25" aria-hidden="true"></div>
+        <svg viewBox="0 0 240 300" class="relative h-full w-full" aria-hidden="true">
+          <defs><clipPath id="glass-clip"><path d="M62 70h116l-12 196q-1 14-15 14H89q-14 0-15-14Z" /></clipPath></defs>
+          <g clip-path="url(#glass-clip)">
+            <rect x="40" y="70" width="160" height="230" fill="#fbf7f0" opacity="0.5" />
+            <rect class="layer" x="40" y="196" width="160" height="110" style="fill:var(--l1)" />
+            <path class="layer wave" d="M40 150q20-8 40 0t40 0 40 0 40 0v50H40Z" style="fill:var(--l2)" />
+            <path class="layer wave2" d="M40 108q20-10 40 0t40 0 40 0 40 0v46H40Z" style="fill:var(--l3)" />
+            <g fill="#fbf7f0" opacity="0.9"><rect x="96" y="120" width="20" height="18" rx="4" transform="rotate(14 106 129)" /><rect x="128" y="170" width="18" height="16" rx="4" transform="rotate(-10 137 178)" /></g>
+          </g>
+          <path d="M62 70h116l-12 196q-1 14-15 14H89q-14 0-15-14Z" fill="none" stroke="var(--color-shu)" stroke-width="3" stroke-linejoin="round" />
+          <path d="M150 20 132 152" stroke="var(--color-shu)" stroke-width="7" stroke-linecap="round" />
+          <path d="M74 86v160" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.55" />
+        </svg>
+        <div class="absolute -end-4 top-4 w-28"><div class="bob"><Cloud face class="w-full" /></div></div>
+      </div>
+    </div>
+
+    <div class="order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
+      <p class="t-label text-matcha-deep" data-reveal>{mt.eyebrow}</p>
+      <h2 id="matcha-title" class="t-serif t-h2 mt-5" data-reveal>{mt.title}</h2>
+      <p class="t-body mt-6 max-w-lg text-sumi-soft" data-reveal>{mt.sub}</p>
+
+      <div class="mt-10 flex flex-wrap gap-2" role="radiogroup" aria-label={mt.eyebrow} data-reveal>
+        {items.map((it, i) => (
+          <button type="button" role="radio" aria-checked={i === 0 ? 'true' : 'false'} class="cup-chip flex items-center gap-2 rounded-full border-[1.5px] border-line px-3.5 py-2 text-[0.78rem] rtl:text-[0.95rem]"
+            data-cup={it.id} data-l={it.l.join(',')} data-name={it.tx.name} data-desc={it.tx.desc} data-price={`${c.menu.currency} ${num(it.price, lang)}`}>
+            <span class="h-3.5 w-3.5 rounded-full border border-sumi/20" style={`background:linear-gradient(${it.l[2]} 33%, ${it.l[1]} 33% 66%, ${it.l[0]} 66%)`}></span>
+            {it.tx.name.replace(/ Matcha$/, '')}
+          </button>
+        ))}
+      </div>
+
+      <div class="mt-10 border-t-[1.5px] border-matcha-deep pt-8" aria-live="polite">
+        <div class="flex items-baseline justify-between gap-6">
+          <h3 class="t-serif t-h3" data-cup-name>{first.tx.name}</h3>
+          <span class="shrink-0 text-lg font-semibold" data-cup-price>{c.menu.currency} {num(first.price, lang)}</span>
+        </div>
+        <p class="t-body mt-3 text-sumi-soft" data-cup-desc>{first.tx.desc}</p>
+        <figure class="mt-8 rounded-[1.6rem] bg-matcha/30 p-6" data-cup-quote>
+          <p class="t-label text-matcha-deep">★ {mt.favourite}</p>
+          <blockquote class="t-serif mt-3 text-[1.5rem] leading-snug">“{mt.quote}”</blockquote>
+          <figcaption class="t-label mt-4 !font-normal text-sumi-soft">{mt.quoteBy}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layer { transition: fill 0.9s var(--ease-cloud); }
+  .wave { animation: wave 6s ease-in-out infinite; }
+  .wave2 { animation: wave 7.5s ease-in-out infinite reverse; }
+  @keyframes wave { 50% { translate: -12px 2px; } }
+  .cup-chip { transition: background-color 0.35s, border-color 0.35s, color 0.35s; }
+  .cup-chip:hover { border-color: var(--color-matcha-deep); }
+  .cup-chip[aria-checked='true'] { background: var(--color-matcha-deep); border-color: var(--color-matcha-deep); color: var(--color-washi); }
+  [data-cup-quote] { transition: opacity 0.5s, transform 0.5s var(--ease-cloud); }
+  [data-cup-quote].is-hidden { opacity: 0; transform: translateY(8px); }
+  @media (prefers-reduced-motion: reduce) { .wave, .wave2 { animation: none; } }
+</style>

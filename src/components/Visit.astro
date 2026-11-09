@@ -1,0 +1,60 @@
+---
+import type { Lang } from '../data/site';
+import { site } from '../data/site';
+import type { Content } from '../data/content';
+import { clock } from '../lib/format';
+import Button from './ui/Button.astro';
+import Cloud from './art/Cloud.astro';
+import Hanko from './art/Hanko.astro';
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const v = c.visit;
+// Week starting Monday reads more naturally in the UAE
+const order = [1, 2, 3, 4, 5, 6, 0];
+---
+<section id="visit" class="relative scroll-mt-16 border-t-[1.5px] border-shu py-24 md:py-36" aria-labelledby="visit-title">
+  <div class="container-x grid gap-14 lg:grid-cols-12">
+    <div class="lg:col-span-6">
+      <p class="t-label text-shu-ink" data-reveal>{v.eyebrow}</p>
+      <h2 id="visit-title" class="t-serif t-h2 mt-5" data-reveal>{v.title}</h2>
+      <p class="t-body mt-8 max-w-md text-sumi-soft" data-reveal>{v.address}</p>
+      <div class="mt-10 flex flex-wrap gap-3" data-reveal>
+        <Button href={site.bookUrl} label={c.cta.book} external />
+        <Button href={site.mapsUrl} label={c.cta.directions} variant="line" external />
+        <Button href={`tel:${site.phone}`} label={c.cta.call} variant="line" arrow={false} />
+      </div>
+      <a href={site.instagram} target="_blank" rel="noopener" class="t-label mt-8 inline-flex items-center gap-2 text-shu-ink hover:text-shu" data-reveal>
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8" /><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" /></svg>
+        <span dir="ltr">{site.instagramHandle}</span>
+      </a>
+    </div>
+
+    <div class="relative lg:col-span-5 lg:col-start-8" data-reveal>
+      <div class="relative rounded-[2rem] bg-[#fbf7f0] p-7 shadow-[0_2px_0_var(--color-line)] md:p-9">
+        <Hanko class="absolute -end-4 -top-6 w-16 rotate-6" />
+        <div class="flex items-baseline justify-between">
+          <h3 class="t-label text-sumi">{v.hoursTitle}</h3>
+          <p class="t-label inline-flex items-center gap-2 !font-normal text-shu-ink" data-status-short></p>
+        </div>
+        <table class="mt-6 w-full text-[0.9rem]">
+          <tbody>
+            {order.map((d) => (
+              <tr class="hours-row border-b border-line" data-day={d}>
+                <th scope="row" class="py-3 text-start font-normal">{v.days[d]} <span class="today-tag t-label ms-2 hidden rounded-full bg-shu px-2 py-0.5 !text-[0.6rem] text-washi">{v.today}</span></th>
+                <td class="py-3 text-end font-semibold">{clock(site.hours[d].open, lang)} – {clock(site.hours[d].close, lang)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="mt-5 text-[0.8rem] leading-relaxed text-sumi-soft">{v.cafeNote}</p>
+      </div>
+      <Cloud face class="bob absolute -bottom-12 -start-8 w-28" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hours-row.is-today th, .hours-row.is-today td { color: var(--color-shu); }
+  .hours-row.is-today .today-tag { display: inline-block; }
+</style>
